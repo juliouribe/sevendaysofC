@@ -127,3 +127,221 @@ main()
 Be careful when comparing like this. != has high priority so you need the
 parentheses or it will evaluate immediately.
 
+### 1.5.2 Character Counting
+
+```
+#include <stdio.h>
+/* count characters in input; 1st version */
+main()
+{
+    long nc;
+    nc = 0;
+    while (getchar() != EOF)
+        ++nc;
+    printf(%ld\n", nc);
+}
+```
+To increment by one, we use `++nc`. Both `++nc` and `nc++` increment nc.
+`--` will decrement in the same way.
+int are 16 bits with a max value of 32767. long are 32 bits with a max of 2147483647
+We can use a double instead and cover a massive large or small number. 10^308 on
+some systems. The actual values depend on the system.
+
+```
+#include <stdio.h>
+main()
+{
+    double nc;
+    for (nc = 0; getchar() != EOF; ++nc)
+        ;
+    printf("%.0f\n", nc);
+}
+```
+The body of the for loop is empty and replaced with a ;. Looks like for and while
+loops needs brackets when its a multi line block and no brackets when its a single
+line block.
+
+### 1.5.3 Line Counting
+
+```
+#include <stdio.h>
+main()
+{
+    int c, nl;
+    nl = 0;
+    while ((c = getchar()) != EOF)
+        if (c == '\n')
+            ++nl;
+    printf("%d\n", nl);
+}
+```
+We use double equals for comparison. Again single line blocks don't appear to
+need brackets. Even though the if and code is multi lines, it looks like we can
+kind of "chain" things and not need brackets.
+
+A character written between single quotes, '\n', represents an integer value of
+the character in the machine's character set. This is called a character constant.
+'A' in ASCII is set to the value of 65. Escapes are also in ASCII. '\n' is set
+to the value of 10 in ASCII.
+
+### 1.5.4 Word Counting
+
+```
+#include <stdio.h>
+
+#define IN 1    /* inside a word */
+#define OUT 0   /* outside a word */
+/* count lines, words, and characters in input */
+main ()
+{
+    int c, nl, nw, nc, state;
+
+    state = 0;
+    nl = nw = nc = 0;
+    while ((c = getchar()) != EOF) {
+        ++nc;
+        if (c == '\n')
+            ++nl;
+        if (c == ' ' || c == '\n' || c = '\t')
+            state = OUT;
+        else if (state == OUT) {
+            state = IN;
+            ++nw;
+        }
+    }
+    printf("%d %d %d\n", nl, nw, nc);
+}
+```
+## 1.6 Arrays
+
+Let's write a program that counts the occurrence of each digit, white space
+(blank, tab, newline), and all other characters. There are 12 categories of
+input so its convenient to use an array to hold the number of occurrences of
+each digit rather than 10 variables.
+
+```
+#include <stdio.h>
+main()
+{
+    inc c, i, nwhite, nother;
+    int ndigit[10];
+
+    nwhite = nother = 0;
+    for (i = 0; i < 10; ++i)
+        ndigit[i] = 0;
+
+    while ((c = getchar()) != EOF)
+        if (c >= '0' && c <= '9')
+            // I think this subtracts current char from ASCII value char so you get the relative 0-9 instead of the actual ASCII.
+            ++ndigit[c-'0'];
+        else if (c == ' ' || c == '\n' || c == '\t')
+            ++nwhite;
+        else
+            ++nother;
+
+    printf("digits =");
+    for (i = 0; i < 10; ++i)
+        printf(" %d", ndigit[i]);
+    printf(", white space = %d, other = %d\n", nwhite, nother);
+}
+```
+
+## 1.7 Functions
+```
+#include <stdio.h>
+// This is called a function prototype.
+int power(int m, int n); // can also be written as int power(int, int);
+/* test power function */
+main()
+{
+    int i;
+    for (i = 0; i < 10; ++i)
+        printf("%d %d %d\n", i, power(2, i), power(-3, i));
+    return 0;
+}
+/* power: raise base to n-th power; n >=0 */
+int power(int base, int n)
+{
+    int i, p;
+
+    p = 1;
+    for (i = 1; i <= n; ++i)
+        p = p * base;
+    return p;
+}
+```
+
+You have the function prototype at the top with arg types. They have to agree
+with the arg types of the function definition but the variable names can change
+or be missing entirely from the function prototype.
+
+## 1.8 Arguments - Call by Value
+
+When you pass in arguments from other variables, you don't pass in the actual
+variable but instead make a local copy. You can modify this value an the value
+or variable from before is not modified.
+
+```
+/* power: raise base to the n-th power: n >= 0; version 2 */
+int power(int base, int n)
+{
+    int p;
+    for (p = 1; n > 0; --n)
+        p = p * base;
+    return p;
+}
+```
+In this example, n is a value passed and gets modified. However the value that
+was passed is not modified since we create a local copy of n.
+
+It is possible to actually modify the value passed in but that would require
+defining and using a pointer instead. That will be covered in chapter 5.
+
+## 1.9 Character Arrays
+
+Check out the code folder for a program called `longestLine.c` that reads line
+by line and saves a line if it is larger than the largest line so far. It uses
+two functions: getline and copy.
+
+## 1.10 External Variables and Scope
+
+Looks like local variables and scope function pretty similarly to python. You
+define something in main and it is only accessible to main. You can pass it with
+a function call but then create a temporary local copy, unless its a pointer.
+The variables in a function disappear when the routine ends so they are called
+automatic variables in that they are created and cleared automatically when the
+routine ends.
+
+You can create "external variables" which are like globals and can be used in
+any function. They must be defined outside of functions. In functions that you
+want to use the external variable, you must declare them at the top of the
+function `extern int max`. There are exceptions if the external declaration is
+in the source file (current file?). Thus the example below the `extern` bit is
+unnecessary since its the same file. However if the function was in another file,
+then you would want it.
+
+```
+int max;
+...
+main ()
+{
+    extern int max;
+    ...
+    max = 0;
+    ...
+        if (len > max) {
+            max = len
+            ...
+        }
+    ...
+}
+```
+
+definition: refers to the place where the variables is created and assigned storage
+declaration: refers to the places where the nature of the variable is stated but
+no storage is allocated.
+
+I guess declaration is just saying the variable exists but no assignment.
+Definition would include the assignment I believe.
+
+
