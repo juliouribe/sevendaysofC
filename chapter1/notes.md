@@ -109,7 +109,8 @@ int variable because it needs to be large enough to hold EOF. If we simply used
 char as the type, it would not be large enough to store EOF.
 
 EOF is an integer defined in <stdio.h>. It's a symbolic constant that refers to
-a specific numeric value.
+a specific numeric value. When running the compiled program, control D provides
+EOF while control C terminates immediately.
 
 Seems like `c = getchar()` returns a value so we can make the code above more concise.
 
