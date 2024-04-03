@@ -1,7 +1,7 @@
 #include <stdio.h>
 #define MAXLINE 1000 /* maximum input line length */
 
-int getline(char line[], int maxline);
+int getline(char l0ine[], int maxline);
 void copy(char to[], char from[]);
 
 /* print the longest input line */
