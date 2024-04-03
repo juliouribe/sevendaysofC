@@ -1,16 +1,26 @@
 #include <stdio.h>
 
-#define LOW 0
-#define HIGH 300
-#define STEP 20
+#define LOW 0.0
+#define HIGH 300.0
+#define STEP 20.0
+
+float fToC(float);
 
 int main ()
 {
-    int start;
-    for (start = LOW; start <= HIGH; start += STEP)
+    float start;
+    float c; 
+    for (start = LOW; start <= HIGH; start += STEP) {
         // (°F - 32) × 5/9
-        printf("%3.0d F to %6.1f C\n", start, (start - 32) * (5.0/9.0));
+        c = fToC(start);
+        printf("%3.0f F to %6.1f C\n", start, c);
+    }
     return 0;
+}
+
+float fToC (float f)
+{
+    return ((f - 32.0) * (5.0/9.0));
 }
 
 // // Reverse order
