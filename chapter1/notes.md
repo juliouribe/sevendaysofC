@@ -22,6 +22,11 @@ double  double precision floating point
 While loop functions pretty much the same as Python and JS. Only runs when the
 expression is true.
 
+```
+int a, b, c;
+a = b = c = 0;
+```
+
 while (expression) {
     // code
 }
