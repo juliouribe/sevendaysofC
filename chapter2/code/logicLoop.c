@@ -4,29 +4,28 @@ int main()
 {
     int i, lim, c, count;
     lim = 5;
-    char t[lim];
     char s[lim];
     // test
     // for (i=0; i < lim-1 && (c=getchar()) != '\n' && c != EOF; ++i)
-    //    t[i] = c;
+    //    s[i] = c;
     // printf("\n");
     // second time
     i = 0;
-    while (c != EOF){
+    while (c != EOF)
+    {
         c = getchar();
-        if (c != '\n'){
+        if (c != '\n')
+        {
             s[i] = c;
             ++i;
             ++count;
         }
-        if (i == lim) break;
+        if (i == lim)
+            break;
     }
-    // printf("\n");
-    // for (i = 0; i < lim-1; ++i) {
-    //     putchar(t[i]);
-    // }
     printf("\n");
-    for (i = 0; i < count; ++i) {
+    for (i = 0; i < count; ++i)
+    {
         putchar(s[i]);
     }
     printf("\n");
