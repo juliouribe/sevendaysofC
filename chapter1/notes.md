@@ -43,6 +43,20 @@ first and then divide or use a float.
 %.2f    print as float, 2 characters after the decimal point
 %6.2f   print as float, 6 wide and at least 2 after the decimal point
 
+| Format Specifier | Data Type            |
+|------------------|----------------------|
+| `%d`             | int                  |
+| `%ld`            | long int             |
+| `%lld`           | long long int        |
+| `%u`             | unsigned int         |
+| `%lu`            | unsigned long int    |
+| `%llu`           | unsigned long long int|
+| `%f`             | float                |
+| `%lf`            | double               |
+| `%c`             | char                 |
+| `%s`             | string               |
+| `%p`             | pointer              |
+
 ## 1.3 The `for` Statement
 
 The for loop looks pretty similar but note the incrementing portion and lack of
