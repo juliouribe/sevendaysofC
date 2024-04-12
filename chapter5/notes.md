@@ -44,3 +44,7 @@ for (n = 0; n < SIZE && getint(&array[n]) != EOF; n++)
 ## 5.3 Pointers and Arrays
 
 
+## 5.4 Pointers
+
+The valid pointer operations are assignment of pointers of the same type, adding or subtracting a pointer and an integer, subtracting or comparing two pointers to members of the same array, and assigning or comparing to zero. All other pointer arithmetic is illegal. It is not legal to add two pointers, or to multiply or divide or shift or mask them, or to add float or double to them, or even, except for void *, to assign a pointer of one type to a pointer of another type without a cast.
+
