@@ -13,16 +13,13 @@ static struct nlist *hashtab[HASHSIZE]; /* pointer table */
 unsigned hash(char *s);
 struct nlist *lookup(char *s);
 struct nlist *install(char *name, char *defn);
+int remover(char *name);
 
 int main(){
     char *str1 = install("fruit", "banana")->name;
-    char *str2 = install("fruit", "banana")->defn;
-    char *str3 = lookup("fruit")->defn;
-    struct nlist *str4 = lookup("banana");
-    // printf("%s\n",str1);
-    // printf("%s\n",str2);
-    printf("%s\n",str3);
-    printf("%d\n",str4);
+    printf("%s\n",str1);
+    install("fruit", "banana")->name;
+    printf("%d\n", remover("fruit"));
     return 0;
 }
 
@@ -59,4 +56,24 @@ struct nlist *install(char *name, char *defn)
     if ((np->defn = strdup(defn)) == NULL)
         return NULL;
     return np;
+}
+
+int remover(char *name){
+    struct nlist *np;
+    struct nlist *lp;
+    np = hashtab[hash(name)];
+    if(np != NULL && strcmp(name, np->name) == 0) {
+        free((void *) np); /* found */
+        return 1; 
+    }
+    while(np != NULL) {
+        lp = np;
+        np = np->next;
+        if (strcmp(name, np->name) == 0) {
+            lp->next = NULL;
+            free((void *) np); /* found */
+            return 1;
+        }
+    }
+    return 0; /* not found */
 }
