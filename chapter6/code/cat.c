@@ -28,6 +28,8 @@ int main()
     printf("%s\n", jerry.name);
     printf("Favorite toy is a %s\n", jerry.favorite->name);
     // printf("Favorite toy is a %s\n", (*(jerry.favorite)).name);
-    printf("Brought you by %s\n", jerry.favorite->manu->company);
+    // printf("Brought you by %s\n", jerry.favorite->manu->company);
+    printf("Brought you by %s\n", (*((*(jerry.favorite)).manu)).company);
+
     return 0;
 }
