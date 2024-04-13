@@ -20,6 +20,8 @@ int main(){
     printf("%s\n",str1);
     install("fruit", "banana")->name;
     printf("%d\n", remover("fruit"));
+    struct nlist *str2 = lookup("fruit");
+    printf("%d\n", str2);
     return 0;
 }
 
@@ -59,21 +61,23 @@ struct nlist *install(char *name, char *defn)
 }
 
 int remover(char *name){
-    struct nlist *np;
-    struct nlist *lp;
-    np = hashtab[hash(name)];
-    if(np != NULL && strcmp(name, np->name) == 0) {
-        free((void *) np); /* found */
-        return 1; 
-    }
+    unsigned hashval = hash(name);
+    struct nlist *np = hashtab[hashval];
+    struct nlist *lp = NULL;
     while(np != NULL) {
-        lp = np;
-        np = np->next;
         if (strcmp(name, np->name) == 0) {
-            lp->next = NULL;
-            free((void *) np); /* found */
+            if (lp == NULL){
+                hashtab[hashval] = np->next;
+            }else{
+                lp->next = np->next;
+            }
+            free(np->name);
+            free(np->defn);
+            free(np);
             return 1;
         }
+        lp = np;
+        np = np->next;
     }
     return 0; /* not found */
 }
