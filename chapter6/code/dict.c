@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #define HASHSIZE 101
 
 struct nlist { /* table entry: */
@@ -13,9 +15,14 @@ struct nlist *lookup(char *s);
 struct nlist *install(char *name, char *defn);
 
 int main(){
-    char str1[] = install("fruit", "banana")->name;
-    char str2[] = install("fruit", "banana")->defn;
-    // printf();
+    char *str1 = install("fruit", "banana")->name;
+    char *str2 = install("fruit", "banana")->defn;
+    char *str3 = lookup("fruit")->defn;
+    struct nlist *str4 = lookup("banana");
+    // printf("%s\n",str1);
+    // printf("%s\n",str2);
+    printf("%s\n",str3);
+    printf("%d\n",str4);
     return 0;
 }
 
